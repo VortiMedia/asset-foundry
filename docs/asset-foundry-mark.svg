@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" role="img" aria-labelledby="title desc">
+  <title id="title">Asset Foundry</title>
+  <desc id="desc">Asset Foundry wordmark with an ember-colored manifest symbol.</desc>
+  <rect width="1200" height="300" rx="24" fill="#F4F0E8"/>
+  <g transform="translate(72 66)">
+    <rect width="168" height="168" rx="12" fill="#242321"/>
+    <path d="M42 43h84M42 84h84M42 125h50" fill="none" stroke="#F4F0E8" stroke-width="12" stroke-linecap="square"/>
+    <rect x="112" y="112" width="28" height="28" fill="#D85A2A"/>
+  </g>
+  <text x="286" y="138" fill="#242321" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="76" font-weight="700" letter-spacing="-3">ASSET FOUNDRY</text>
+  <text x="290" y="195" fill="#625E57" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="28" letter-spacing="1">CONTROLLED IMAGE GENERATION</text>
+  <path d="M290 220h730" stroke="#D85A2A" stroke-width="5"/>
+</svg>
