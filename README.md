@@ -129,8 +129,7 @@ All other model IDs fail before generation starts.
 | [`assets.tsv`](assets.tsv) | Four-column asset manifest |
 | [`gen.sh`](gen.sh) | Controlled generation entry point |
 | [`AGENTS.md`](AGENTS.md) | Canonical agent guardrails |
-| [`CLAUDE.md`](CLAUDE.md) | Claude Code instruction import |
-| [`.claude/settings.json`](.claude/settings.json) | Narrow project permissions |
+| [`AGENTS.md`](AGENTS.md) | Agent instruction import |
 | [`brand/`](brand/README.md) | Ignored private reference area |
 | [`prompts/recipes.md`](prompts/recipes.md) | Reusable prompt patterns |
 | [`docs/getting-started.md`](docs/getting-started.md) | Setup and first asset |
