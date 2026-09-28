@@ -2,6 +2,16 @@
 
 Each recipe is one line. Replace the words in CAPITALS.
 
+## Search queries
+
+Search before you write a prompt. Use two to four concrete words for the subject and one for the light or mood.
+
+    suburban street dusk
+    brick row house front door
+    empty office desk morning
+
+Do not paste the generation prompt into a search. Photo libraries match tags, not sentences. If the first search finds nothing that fits, try one different wording before you generate.
+
 ## Structure
 
 Write the prompt in this order:

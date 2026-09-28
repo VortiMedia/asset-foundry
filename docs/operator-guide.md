@@ -8,19 +8,49 @@ Use this guide for daily Asset Foundry work.
 
 2. Convert each requested asset into one manifest row.
 
-3. Present the batch names and estimated paid-call count.
+3. Search the free libraries for each asset.
 
-4. Wait for batch confirmation.
+4. Take a real photo for each asset that has one that fits.
 
-5. Add only the confirmed rows to the manifest.
+5. Present the remaining asset names and paid-call count.
 
-6. Run `./gen.sh` with exactly the confirmed names.
+6. Wait for batch confirmation.
 
-7. Show the output paths.
+7. Run `./gen.sh` with exactly the confirmed names.
 
-8. Wait for review.
+8. Show the output paths.
+
+9. Wait for review.
 
 Stop after the output is ready for review. Do not create a variant or retry unless the user requests a revision.
+
+## Search before you generate
+
+A real photo that fits is better than a generated image. A search is free.
+
+1. Search with two to four concrete words.
+
+   ```sh
+   ./find.sh cafe-service-counter cafe counter window light
+   ```
+
+   Expected result: one line for each result, then `found N for cafe-service-counter in out/candidates/cafe-service-counter/`.
+
+2. Look at each preview in `out/candidates/cafe-service-counter/`.
+
+3. Take the photo that fits.
+
+   ```sh
+   ./find.sh --take cafe-service-counter unsplash-aB1c2D3
+   ```
+
+   Expected result: `took cafe-service-counter out/cafe-service-counter.jpg (Photo by NAME on Unsplash)`.
+
+A photo fits when the subject matches, the long edge is at least 2400 pixels, it has no readable text, logo, watermark, or prominent face that the request did not ask for, and its light suits the destination.
+
+If no photo fits, try one different wording. If that search also finds nothing, generate the asset. Tell the user in one line why no photo fit.
+
+Keep `out/NAME.credit.tsv` with a taken photo. It holds the credit line and license.
 
 ## Approve a batch
 
@@ -31,7 +61,7 @@ Batch: cafe-service-counter, ceramic-vessel-study
 Estimated paid calls: 2
 ```
 
-If an output already exists, note that the script will skip it. Do not count a known skip as a paid call.
+If an output already exists, note that the script will skip it. A taken photo is an output. Do not count a known skip as a paid call.
 
 Use named generation for normal work:
 
@@ -43,21 +73,9 @@ The script processes selected assets in manifest order. The command argument ord
 
 Use `./gen.sh --all` only after the user explicitly approves every missing manifest asset.
 
-## Select a model
+## Generate in one call
 
-Use `openai/gpt-image-2` for the default final asset:
-
-```sh
-./gen.sh cafe-service-counter
-```
-
-Use `google/gemini-3.1-flash-image` for an inexpensive draft:
-
-```sh
-MODEL=google/gemini-3.1-flash-image ./gen.sh cafe-service-counter
-```
-
-Treat a draft and a final asset as separate paid calls. Get approval before you create both.
+Generation uses `openai/gpt-image-2` at high quality. There is no draft step. Write the prompt with the recipe structure in `prompts/recipes.md` so that one call gives the final asset. If the result is wrong, the user requests a revision.
 
 ## Create a revision
 
@@ -103,12 +121,10 @@ Use two-pass work only after the user requests it.
 
 4. Put the approved reference file second.
 
-5. Use `openai/gpt-image-2` for the edit.
-
-6. Request both names in one command.
+5. Request both names in one command.
 
    ```sh
-   MODEL=openai/gpt-image-2 ./gen.sh product-package-base product-package-final
+   ./gen.sh product-package-base product-package-final
    ```
 
 Expected result: the base runs before the edit because the script follows manifest order.

@@ -4,12 +4,10 @@
     "defaultMode": "dontAsk",
     "allow": [
       "Edit(/assets.tsv)",
+      "Bash(./find.sh *)",
       "Bash(./gen.sh)",
       "Bash(./gen.sh *)",
-      "Bash(MODEL=openai/gpt-image-2 ./gen.sh)",
-      "Bash(MODEL=openai/gpt-image-2 ./gen.sh *)",
-      "Bash(MODEL=google/gemini-3.1-flash-image ./gen.sh)",
-      "Bash(MODEL=google/gemini-3.1-flash-image ./gen.sh *)"
+      "Bash(tests/run.sh)"
     ],
     "deny": [
       "Read(/.env)",
