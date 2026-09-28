@@ -24,16 +24,6 @@ if [[ $1 == --all ]]; then
   generate_all=true
 fi
 
-model=${MODEL:-openai/gpt-image-2}
-case "$model" in
-  openai/gpt-image-2|google/gemini-3.1-flash-image) ;;
-  *)
-    echo "error: unsupported MODEL '$model'" >&2
-    echo "allowed models: openai/gpt-image-2, google/gemini-3.1-flash-image" >&2
-    exit 64
-    ;;
-esac
-
 asset_exists() {
   local requested_name=$1
   local manifest_name remainder
@@ -89,7 +79,7 @@ while IFS=$'\t' read -r name ratio refs prompt; do
   should_generate "$name" || continue
 
   output="out/$name.png"
-  if [[ -f $output ]]; then
+  if [[ -f $output || -f out/$name.jpg ]]; then
     echo "skip $name"
     continue
   fi
@@ -102,26 +92,20 @@ while IFS=$'\t' read -r name ratio refs prompt; do
     done
   fi
 
-  model_args=()
-  if [[ $model == openai/gpt-image-2 ]]; then
-    case "$ratio" in
-      16:9) size=1536x864 ;;
-      3:2) size=1536x1024 ;;
-      1:1) size=1024x1024 ;;
-      4:5) size=1024x1280 ;;
-      9:16) size=864x1536 ;;
-      *)
-        echo "error: unsupported ratio '$ratio' for asset '$name'" >&2
-        exit 65
-        ;;
-    esac
-    model_args=(--size "$size" --quality high)
-  else
-    model_args=(--aspect-ratio "$ratio")
-  fi
+  case "$ratio" in
+    16:9) size=1536x864 ;;
+    3:2) size=1536x1024 ;;
+    1:1) size=1024x1024 ;;
+    4:5) size=1024x1280 ;;
+    9:16) size=864x1536 ;;
+    *)
+      echo "error: unsupported ratio '$ratio' for asset '$name'" >&2
+      exit 65
+      ;;
+  esac
 
-  ai image -q -n 1 --no-preview -m "$model" \
-    "${model_args[@]}" ${image_args[@]+"${image_args[@]}"} \
+  ai image -q -n 1 --no-preview -m openai/gpt-image-2 \
+    --size "$size" --quality high ${image_args[@]+"${image_args[@]}"} \
     -o "$output" "$prompt" </dev/null
   echo "made $name"
 done < assets.tsv

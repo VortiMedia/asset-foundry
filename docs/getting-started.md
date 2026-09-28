@@ -1,6 +1,6 @@
 # Getting started
 
-This guide installs Asset Foundry and creates one image asset.
+This guide installs Asset Foundry and creates one image asset: a free real photo when one fits, or a generated image when none does.
 
 ## Terms
 
@@ -9,7 +9,8 @@ This guide installs Asset Foundry and creates one image asset.
 - **Manifest:** The `assets.tsv` file that defines assets.
 - **Reference:** An existing image that guides a generation.
 - **Recipe:** A reusable prompt pattern.
-- **Output:** A generated PNG file in `out/`.
+- **Candidate:** One photo that a search found, with a preview in `out/candidates/NAME/`.
+- **Output:** A taken photo (`out/NAME.jpg`) or a generated image (`out/NAME.png`).
 
 Use one term for each concept. Do not use *job* or *task* when you mean *asset* or *batch*.
 
@@ -20,7 +21,9 @@ Install these items:
 - Bash
 - A current Node.js runtime with npm
 - Git
+- `curl` and `jq`
 - A Vercel account with AI Gateway access
+- A free Unsplash developer application, a free Pexels API key, or both
 
 ## Install the CLI
 
@@ -60,7 +63,22 @@ Expected result: the command reports version `0.4.3`.
    AI_GATEWAY_API_KEY=your_gateway_key
    ```
 
-Expected result: `.env` contains one secret and remains untracked.
+Expected result: `.env` contains the gateway key and remains untracked.
+
+## Add photo library keys
+
+1. Create an application at [Unsplash Developers](https://unsplash.com/developers). Copy its access key.
+
+2. Request a key at [Pexels API](https://www.pexels.com/api/).
+
+3. Put the keys in `.env`.
+
+   ```dotenv
+   UNSPLASH_ACCESS_KEY=your_unsplash_access_key
+   PEXELS_API_KEY=your_pexels_key
+   ```
+
+One key is enough to search. Both keys give more results.
 
 Do not put a provider key in this repository. Do not commit `.env`.
 
@@ -80,11 +98,29 @@ Do not put a provider key in this repository. Do not commit `.env`.
 
 5. Check that the asset name is unique.
 
-6. Confirm a batch with one name and one estimated paid call.
+## Search for a real photo
+
+1. Search the libraries.
+
+   ```sh
+   ./find.sh ceramic-vessel-study handmade ceramic vase
+   ```
+
+   Expected result: one line for each result, then `found N for ceramic-vessel-study in out/candidates/ceramic-vessel-study/`.
+
+2. Look at the previews.
+
+3. If one fits, take it.
+
+   ```sh
+   ./find.sh --take ceramic-vessel-study PICK
+   ```
+
+   Expected result: `out/ceramic-vessel-study.jpg` and `out/ceramic-vessel-study.credit.tsv`. The asset is done.
 
 ## Generate the asset
 
-Run this command only after batch confirmation:
+Generate only when no photo fits. Confirm a batch with one name and one estimated paid call. Run this command only after batch confirmation:
 
 ```sh
 ./gen.sh ceramic-vessel-study

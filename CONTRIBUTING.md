@@ -13,7 +13,8 @@ Use these terms consistently:
 | Manifest | The `assets.tsv` file |
 | Reference | An existing image that guides generation |
 | Recipe | A reusable prompt pattern |
-| Output | A generated PNG in `out/` |
+| Candidate | One photo that a search found |
+| Output | A taken JPEG or a generated PNG in `out/` |
 
 ## Write documentation
 
@@ -42,7 +43,7 @@ This writing system is inspired by ASD Simplified Technical English only.
 1. Run the shell syntax check.
 
    ```sh
-   bash -n gen.sh
+   bash -n find.sh gen.sh
    ```
 
 2. Validate the Claude settings JSON.
@@ -59,16 +60,18 @@ This writing system is inspired by ASD Simplified Technical English only.
 
 6. Check that each static reference path exists.
 
-7. Test generation behavior with a fake `ai` executable.
+7. Run the offline tests. They replace `curl` and `ai` with fakes.
 
-8. Confirm that the test made no network request.
+   ```sh
+   tests/run.sh
+   ```
 
-9. Check ignored files.
+8. Check ignored files.
 
    ```sh
    git check-ignore .env out/example.png brand/private-reference.png
    ```
 
-10. Inspect the staged diff for private or unrelated content.
+9. Inspect the staged diff for private or unrelated content.
 
-Do not run a paid generation to validate a code or documentation change.
+Do not run a paid generation or a live search to validate a code or documentation change.
